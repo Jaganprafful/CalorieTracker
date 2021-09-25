@@ -1,0 +1,1 @@
+Calorie Tracker web application. This helps users to keep track of all calories, carbohydrates, fat, and protein intake in a day. Users can add/update/delete the food activities in a day and view statistical information of calories consumed in a week. Admin will be creating the users and adding sample food data for ease of access to the users.
