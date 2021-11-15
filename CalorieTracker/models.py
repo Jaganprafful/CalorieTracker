@@ -5,20 +5,14 @@ from django.urls import reverse
 
 class User(AbstractUser):
     fullName = models.CharField(max_length=50, default=' ', null=True, blank=True)
+    is_Client = models.BooleanField(default=False)
 
 
 class Client(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    age = models.IntegerField(default=0)
-    weight = models.FloatField()
-    height = models.FloatField()
-    phone = models.CharField(max_length=15, default='(000)000-0000')
-
-    def __str__(self):
-        return self.user.fullName
-
-    def get_absolute_url(self):
-        return reverse('client_detail', args=[str(self.id)])
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    age = models.IntegerField(null=True, blank=True)
+    weight = models.FloatField(null=True, blank=True)
+    height = models.FloatField(null=True, blank=True)
 
 
 class Food(models.Model):
@@ -46,3 +40,5 @@ class ConsumedFood(models.Model):
     relatedFood = models.ForeignKey(Food, null=False, blank=False, on_delete=models.CASCADE)
     relatedClient = models.ForeignKey(Client, null=False, blank=False, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=0)
+    dateCreated = models.DateField(auto_now_add=True)
+

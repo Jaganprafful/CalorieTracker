@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <script>
+         function loadInfo (){
+            var carbs = parseFloat(document.getElementById("totalCarbs").value);
+            var protein = parseFloat(document.getElementById("totalProteins").value);
+            var fats = parseFloat(document.getElementById("totalFats").value);
+            var total = carbs + protein + fats;
+            var carbsP = Math.round((carbs / total) * 100);
+            var protienP = Math.round((protein / total) * 100);
+            var fatsP = Math.round((fats / total) * 100);
+
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Carbs ' + carbsP + '%', 'Protein ' + protienP + '%', 'Fats ' + fatsP + '%'],
+                    datasets: [{
+                        label: '# of Votes',
+                        data: [carbsP, protienP, fatsP],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+
+            });
+        }
+
+</script>
+    <div class="row justify-content-md-center">
+        <div style="height:50px; text-align: center">
+            <table class="table" style="text-align: left; margin: auto;">
+                <h2 style="text-align: center">Today's breakdown</h2>
+                <thead>
+                    <tr>
+                        <th class="sticky">Calorie Consumed</th>
+                        <th class="sticky">Protein Consumed</th>
+                        <th class="sticky">Fats Consumed</th>
+                        <th class="sticky">Crabs Consumed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in records %}
+                    <tr>
+                        <td>{{ record.totalCalorie }}</td>
+                        <td>
+                            <input type="hidden" id="totalProteins" value="{{ record.totalProteins }}"/>
+                            {{ record.totalProteins }}</td>
+                        <td >
+                            <input type="hidden" id="totalFats" value="{{ record.totalFats }}"/>
+                            {{ record.totalFats }}</td>
+                        <td >
+                            <input type="hidden" id="totalCarbs" value="{{ record.totalCarbs }}"/>
+                            {{ record.totalCarbs }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        <button type="submit" class="btn btn-success ml-2" onclick="loadInfo()">Show Chart</button>
+        </div>
+        <div style="height: 400px; width: 400px" class="row">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+{% endblock %}

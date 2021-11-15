@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="jumbotron" style="padding: 2rem 2rem; margin: auto; width: 700px; opacity: .95;">
+    <div class="align-items-center">
+            <form method="POST" action="{% url 'profile' %}">
+              {% csrf_token %}
+                <h2>Calorie Goal For Today</h2>
+                    <table>
+                        {{ form.as_table }}
+                    </table>
+                <h2>Enter Client Details</h2>
+                <table>
+                    {{ cform.as_table }}
+                </table>
+                <button class="btn btn-success ml-2" type="submit"> Save</button>
+            </form>
+    </div>
+    <div style="height: 200px; overflow-y: scroll">
+        <table class="table" style="text-align: left; margin: auto;">
+            <h2 class="">Records From Past Week</h2>
+            <thead>
+                <tr>
+                    <th class="sticky">Date</th>
+                    <th class="sticky">Calorie Consumed</th>
+                    <th class="sticky">Calorie Goal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <td>{{ record.dateCreated }}</td>
+                    <td>{{ record.totalCalorie }}</td>
+                    <td>{{ record.caloriesGoal }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+{% endblock %}
