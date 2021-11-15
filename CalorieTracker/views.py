@@ -7,8 +7,7 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.utils import timezone
-from django.views import generic
-from django.views.generic import ListView, CreateView
+from django.views.generic import CreateView
 
 from CalorieTracker.forms import *
 from CalorieTracker.models import *
@@ -35,13 +34,16 @@ def signup(request):
 @login_required
 def home_view(request):
     current_date = datetime.date.today()
-    client = Client.objects.get(user=request.user)
-    profile = Profile.objects.filter(relatedClient=client, dateCreated=current_date)
-    if profile.exists():
-        return render(request, 'home.html', {'records': profile})
-    else:
-        Profile.objects.create(relatedClient=client, dateCreated=current_date)
-        return render(request, 'home.html', {'records': profile})
+    try:
+        client = Client.objects.get(user=request.user)
+        profile = Profile.objects.filter(relatedClient=client, dateCreated=current_date)
+        if profile.exists():
+            return render(request, 'home.html', {'records': profile})
+        else:
+            Profile.objects.create(relatedClient=client, dateCreated=current_date)
+            return render(request, 'home.html', {'records': profile})
+    except Client.DoesNotExist:
+        return render(request, 'home.html')
 
 
 @login_required

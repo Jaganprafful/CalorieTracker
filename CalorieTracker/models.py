@@ -40,4 +40,3 @@ class ConsumedFood(models.Model):
     relatedClient = models.ForeignKey(Client, null=False, blank=False, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=0)
     dateCreated = models.DateField(auto_now_add=True)
-

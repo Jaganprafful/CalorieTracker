@@ -4,7 +4,7 @@
 
 {% block content %}
 <div  style="margin: auto; width: 65%; opacity: .8;">
-{% if user.is_authenticated %}
+{% if user.is_authenticated and not user.is_staff  %}
   <div class="container mt-2">
   <div style="display: inline">
     <div class="col-lg-6 col-sm-12 item ">
@@ -25,10 +25,12 @@
   </div>
     </div>
   </div>
-
 </div>
-{% else %}
-<h1>Please Login to track your Calorie Goals</h1>
+{% elif user.is_staff  %}
+    <h1>Navigate to Admin View</h1>
+    <a class="btn-info" href="{% url 'admin:index' %}">Admin</a>
+    {% else %}
+    <h1>Please Login to track your Calorie Goals</h1>
 {% endif %}
 </div>
 {% endblock content %}
