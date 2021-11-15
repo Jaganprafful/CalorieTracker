@@ -8,5 +8,5 @@ urlpatterns = [
     path('profile/', profile_view, name='profile'),
     path('foodactivities/', food_activities_view, name='food_activities'),
     path('deleteitem/<int:id>/', delete_consumed_food, name='delete_item'),
-    path('statisticalInfo/',statistical_view, name='statistical')
+    path('statisticalInfo/', statistical_view, name='statistical')
 ]
