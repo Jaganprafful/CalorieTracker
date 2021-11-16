@@ -48,8 +48,9 @@ def home_view(request):
 
 @login_required
 def profile_view(request):
+    current_date = datetime.date.today()
     client = Client.objects.get(user=request.user)
-    clientp = Profile.objects.get(relatedClient=client)
+    clientp = Profile.objects.get(relatedClient=client, dateCreated=current_date)
     # get calorie count of last 7 days
     some_day_last_week = timezone.now().date() - timedelta(days=7)
     records = Profile.objects.filter(dateCreated__gte=some_day_last_week, dateCreated__lte=timezone.now().date(),
@@ -58,7 +59,6 @@ def profile_view(request):
         form = ProfileForm(request.POST)
         cform = ClientProfileForm(request.POST)
         if form.is_valid() and cform.is_valid():
-            current_date = datetime.date.today()
             profile = Profile.objects.filter(relatedClient=client, dateCreated=current_date)
             c_goal = request.POST.get('caloriesGoal')
             if profile.exists():
